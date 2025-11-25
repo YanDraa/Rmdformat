@@ -1,0 +1,659 @@
+/* ===== SIDEBAR STYLING ===== */
+/* Sidebar dimulai dari atas (top: 0) untuk menutupi header saat terbuka, memberikan efek memotong header */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0; /* Diubah dari top: 60px ke top: 0 agar sidebar menutupi header */
+    width: 250px;
+    height: 100vh; /* Diubah dari calc(100vh - 60px) ke 100vh agar sidebar penuh tinggi layar */
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1002; /* Z-index lebih tinggi dari topbar (1001) agar sidebar menutupi header sepenuhnya saat terbuka */
+    transition: transform 0.3s ease;
+    box-sizing: border-box; /* Memastikan padding termasuk dalam width untuk perhitungan transform yang akurat */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Toggle button container - positioned fixed on left side */
+#sidebarToggleContainer {
+    position: fixed;
+    top: 10px;
+    left: 10px; /* Start at left edge when collapsed */
+    z-index: 1003; /* Above sidebar */
+    transition: left 0.3s ease;
+}
+
+body.sidebar-collapsed #sidebarToggleContainer {
+    left: 10px; /* Stay at left edge when collapsed */
+}
+
+#sidebar:not([style*="transform"]) ~ #sidebarToggleContainer {
+    left: 260px; /* Move to right of sidebar when open */
+}
+
+#toggleSidebar {
+    background: #3498db;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+#toggleSidebar:hover {
+    background: #2980b9;
+}
+
+.sidebar-title {    
+    color: #ecf0f1;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin: 20px 0 20px 0;
+    font-size: 1.2em;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin: 8px 0;
+}
+
+.sidebar-menu li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu li a:hover {
+    color: white;
+    background: #34495e;
+}
+
+/* Level styling untuk heading */
+.lvl-1 {
+    font-weight: bold;
+    margin-left: 0px;
+    font-size: 1.1em;
+}
+
+.lvl-2 {
+    margin-left: 15px;
+    font-size: 1em;
+}
+
+.lvl-3 {
+    margin-left: 30px;
+    font-size: 0.9em;
+    color: #95a5a6;
+}
+
+/* ===== TOPBAR STYLING ===== */
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #3498db;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1001;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.title-center {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.topbar-left,
+.topbar-right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    width: auto; /* Memastikan tidak memakan ruang berlebih */
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-icon:hover {
+    background: none;
+}
+
+.btn-icon:focus {
+    outline: none;
+}
+
+/* ===== BODY ADJUSTMENTS ===== */
+/* Body memiliki padding-top untuk header dan padding-left untuk sidebar terbuka, memberikan efek tergencet */
+body {
+    padding-top: 60px;
+    padding-left: 250px;
+    transition: all 0.3s ease;
+}
+
+/* Untuk sidebar yang collapsed */
+body.sidebar-collapsed {
+    padding-left: 60px;
+}
+
+body.sidebar-collapsed #sidebar {
+    transform: translateX(-250px); /* Disesuaikan dengan width sidebar (250px) untuk menyembunyikan sepenuhnya saat collapsed, dengan box-sizing: border-box */
+}
+
+/* No need to reposition toggleSidebar when collapsed - it stays on left */
+
+/* Fade effect untuk sidebar content - konten sidebar memudar saat collapsed */
+.sidebar-title,
+.sidebar-menu {
+    opacity: 1;
+    transition: opacity 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+body.sidebar-collapsed .sidebar-title,
+body.sidebar-collapsed .sidebar-menu {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body {
+        padding-left: 0;
+        font-size: 14px; /* Smaller font for mobile */
+    }
+
+    .main-container {
+        padding: 15px; /* Reduce padding on mobile */
+    }
+
+    #sidebar {
+        transform: translateY(-100%);
+        width: 100%; /* Full width for mobile overlay */
+    }
+
+    body.sidebar-mobile-open #sidebar {
+        transform: translateY(0);
+    }
+
+    /* Make tables scrollable on mobile */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+    /* Responsive images */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Responsive code blocks */
+    pre, code {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Adjust topbar for mobile */
+    #topbar {
+        padding: 0 15px;
+    }
+
+    .title-center {
+        font-size: 1em; /* Smaller title */
+    }
+
+    /* Ensure toggle button is accessible */
+    #sidebarToggleContainer {
+        left: 10px !important; /* Always on left */
+    }
+}
+
+/* Additional breakpoint for very small screens */
+@media (max-width: 480px) {
+    body {
+        font-size: 13px;
+    }
+
+    .main-container {
+        padding: 10px;
+    }
+
+    #sidebar {
+        width: 100%; /* Full width on very small screens */
+    }
+
+    .sidebar-title {
+        font-size: 1.1em;
+    }
+
+    .sidebar-menu li a {
+        padding: 10px 12px;
+        font-size: 0.9em;
+    }
+
+    .back-to-top {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* ===== CONTENT STYLING ===== */
+.main-container {
+    max-width: 100%;
+    padding: 20px;
+}
+
+/* Improve readability dengan theme simplex */
+.container-fluid {
+    max-width: none;
+    margin: 0 auto;
+}
+
+/* ===== DARK THEME STYLING ===== */
+body.dark-theme {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-theme .main-container {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-theme #sidebar {
+    background: #2d3748;
+}
+
+body.dark-theme #topbar {
+    background: #2b6cb0;
+}
+
+body.dark-theme .sidebar-menu li a {
+    color: #cbd5e0;
+}
+
+body.dark-theme .sidebar-menu li a:hover {
+    color: white;
+    background: #4a5568;
+}
+
+/* Dark theme untuk konten R Markdown */
+body.dark-theme .container-fluid {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-theme pre {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #4a5568;
+}
+
+body.dark-theme code {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-theme table {
+    background-color: #2d3748;
+    color: #e0e0e0;
+}
+
+body.dark-theme th {
+    background-color: #2b6cb0;
+    color: white;
+}
+
+body.dark-theme td {
+    background-color: #2d3748;
+    color: #e0e0e0;
+    border-color: #4a5568;
+}
+
+body.dark-theme h1, 
+body.dark-theme h2, 
+body.dark-theme h3, 
+body.dark-theme h4, 
+body.dark-theme h5, 
+body.dark-theme h6 {
+    color: #63b3ed;
+    border-bottom-color: #4299e1;
+}
+
+/* Dark theme untuk elemen khusus Rmd */
+body.dark-theme .alert,
+body.dark-theme .panel,
+body.dark-theme .well {
+    background-color: #2d3748 !important;
+    color: #e0e0e0 !important;
+    border-color: #4a5568 !important;
+}
+
+body.dark-theme .btn-default {
+    background-color: #4a5568;
+    color: #e0e0e0;
+    border-color: #718096;
+}
+
+/* ===== ENHANCED FEATURES ===== */
+
+/* Search Container */
+.search-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#sidebarSearch {
+    width: 100%;
+    padding: 10px 35px 10px 15px;
+    border: 1px solid #34495e;
+    border-radius: 20px;
+    background: #2c3e50;
+    color: white;
+    font-size: 14px;
+}
+
+#sidebarSearch::placeholder {
+    color: #bdc3c7;
+}
+
+#sidebarSearch:focus {
+    outline: none;
+    border-color: #3498db;
+    background: #34495e;
+}
+
+#clearSearch {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #bdc3c7;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#clearSearch:hover {
+    color: #ecf0f1;
+}
+
+/* Active Menu Item */
+.sidebar-menu li a.active {
+    background: #3498db !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+/* Theme Transition */
+body.theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark theme enhancements untuk fitur baru */
+body.dark-theme #sidebarSearch {
+    background: #4a5568;
+    border-color: #718096;
+    color: #e2e8f0;
+}
+
+body.dark-theme #sidebarSearch::placeholder {
+    color: #a0aec0;
+}
+
+body.dark-theme .back-to-top {
+    background: #2b6cb0;
+}
+
+body.dark-theme .back-to-top:hover {
+    background: #2c5282;
+}
+
+/* Hover effects untuk menu */
+.sidebar-menu li a {
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.sidebar-menu li a::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #3498db;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar-menu li a:hover::before,
+.sidebar-menu li a.active::before {
+    opacity: 1;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .search-container {
+        margin-bottom: 15px;
+    }
+}
+
+/* Animation for menu items */
+.sidebar-menu li {
+    animation: fadeInUp 0.5s cubic-bezier(.22,1.61,.36,1) forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animation for menu items */
+.sidebar-menu li:nth-child(1) { animation-delay: 0.1s; }
+.sidebar-menu li:nth-child(2) { animation-delay: 0.2s; }
+.sidebar-menu li:nth-child(3) { animation-delay: 0.3s; }
+.sidebar-menu li:nth-child(4) { animation-delay: 0.4s; }
+.sidebar-menu li:nth-child(5) { animation-delay: 0.5s; }
+
+
+
+
+
+
+/* ===== SIDEBAR AUTHOR ===== */
+.sidebar-author {
+    margin-top: auto;
+    text-align: center;
+    color: #bdc3c7;
+    font-size: 0.9em;
+    border-top: 1px solid #34495e;
+    padding-top: 10px;
+}
+
+/* Dark theme for author */
+body.dark-theme .sidebar-author {
+    color: #cbd5e0;
+    border-top-color: #4a5568;
+}
+
+/* ===== SIMPLE AUTO SIDEBAR STYLING ===== */
+
+/* Container untuk H2 dan H3 */
+.h2-container,
+.h3-container {
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+
+/* Expansion state */
+.h2-container:not(.collapsed),
+.h3-container:not(.collapsed) {
+    max-height: 1000px;
+}
+
+/* Styling untuk semua level */
+.sidebar-lvl-1 {
+    margin: 8px 0;
+    font-weight: 600;
+}
+
+.sidebar-lvl-1 > a {
+    padding: 10px 15px !important;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 4px;
+    display: block;
+    border-left: 3px solid #3498db;
+}
+
+.sidebar-lvl-2 {
+    margin: 4px 0;
+}
+
+.sidebar-lvl-2 > a {
+    padding: 6px 15px 6px 20px !important;
+    font-size: 0.95em;
+    border-left: 2px solid #e74c3c;
+}
+
+.sidebar-lvl-3 {
+    margin: 2px 0;
+}
+
+.sidebar-lvl-3 > a {
+    padding: 4px 15px 4px 30px !important;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    border-left: 1px solid #f39c12;
+}
+
+/* Active states */
+.sidebar-menu li.active > a {
+    background: rgba(52, 152, 219, 0.2) !important;
+    color: #3498db !important;
+    font-weight: 600;
+}
+
+.sidebar-lvl-2.active > a {
+    background: rgba(231, 76, 60, 0.15) !important;
+    color: #e74c3c !important;
+}
+
+.sidebar-lvl-3.active > a {
+    background: rgba(243, 156, 18, 0.15) !important;
+    color: #f39c12 !important;
+}
+
+/* Hover effects */
+.sidebar-menu li > a:hover {
+    background: rgba(52, 152, 219, 0.15) !important;
+}
+
+/* Dark theme */
+body.dark-theme .sidebar-lvl-1 > a {
+    background: rgba(99, 179, 237, 0.15);
+    border-left-color: #63b3ed;
+}
+
+body.dark-theme .sidebar-lvl-2 > a {
+    border-left-color: #fc8181;
+}
+
+body.dark-theme .sidebar-lvl-3 > a {
+    border-left-color: #faf089;
+    color: #a0aec0;
+}
+
+body.dark-theme .sidebar-menu li.active > a {
+    background: rgba(99, 179, 237, 0.25) !important;
+}
+
+body.dark-theme .sidebar-lvl-2.active > a {
+    background: rgba(252, 129, 129, 0.2) !important;
+}
+
+body.dark-theme .sidebar-lvl-3.active > a {
+    background: rgba(250, 240, 137, 0.2) !important;
+}
+
+
+
+
