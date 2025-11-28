@@ -121,10 +121,10 @@ body.sidebar-collapsed #sidebarToggleContainer {
 #topbar {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 250px;
+    width: calc(100% - 250px);
     height: 60px;
-    background: rgba(128, 128, 128, 0.5);
+    background: rgba(78, 78, 78, 0.5);
     backdrop-filter: blur(10px);
     color: white;
     display: flex;
@@ -133,6 +133,12 @@ body.sidebar-collapsed #sidebarToggleContainer {
     padding: 0 20px;
     z-index: 1001;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+body.sidebar-collapsed #topbar {
+    left: 0;
+    width: 100%;
 }
 
 .title-center {
