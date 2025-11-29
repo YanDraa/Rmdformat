@@ -75,6 +75,10 @@ body.sidebar-collapsed #sidebarToggleContainer {
     font-size: 1.2em;
 }
 
+body.dark-theme .sidebar-title {
+    border-bottom: 2px solid #3498db;
+}
+
 .sidebar-menu {
     list-style: none;
     padding: 0;
@@ -330,7 +334,7 @@ body.dark-theme .main-container {
 }
 
 body.dark-theme #sidebar {
-    background: #2d3748;
+    background: transparent;
 }
 
 body.dark-theme #topbar {
@@ -487,6 +491,11 @@ body.dark-theme #sidebarSearch::placeholder {
     color: #a0aec0;
 }
 
+body.dark-theme #sidebarSearch:focus {
+    background: #4a5568;
+    border-color: #63b3ed;
+}
+
 /* Hover effects untuk menu */
 .sidebar-menu li a {
     transition: all 0.2s ease;
@@ -557,7 +566,7 @@ body.dark-theme #sidebarSearch::placeholder {
 /* Dark theme for author */
 body.dark-theme .sidebar-author {
     color: #cbd5e0;
-    border-top-color: #4a5568;
+    border-top: none;
 }
 
 /* ===== SIMPLE AUTO SIDEBAR STYLING ===== */
@@ -657,15 +666,21 @@ body.dark-theme .sidebar-lvl-3 > a {
 }
 
 body.dark-theme .sidebar-menu li.active > a {
-    background: rgba(99, 179, 237, 0.25) !important;
+    background: transparent !important;
 }
 
 body.dark-theme .sidebar-lvl-2.active > a {
-    background: rgba(252, 129, 129, 0.2) !important;
+    background: transparent !important;
 }
 
 body.dark-theme .sidebar-lvl-3.active > a {
-    background: rgba(250, 240, 137, 0.2) !important;
+    background: transparent !important;
+}
+
+body.dark-theme .sidebar-lvl-1 > a,
+body.dark-theme .sidebar-lvl-2 > a,
+body.dark-theme .sidebar-lvl-3 > a {
+    background: transparent;
 }
 
 .definition {
@@ -677,6 +692,14 @@ body.dark-theme .sidebar-lvl-3.active > a {
   border-radius: 4px;
   font-family: Arial, sans-serif;
 }
+
+body.dark-theme .definition {
+  background-color: #2d3748;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border-left: 4px solid #63b3ed;
+  color: #e0e0e0;
+}
+
 .definition-small {
   background-color: #f8f7f7;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -685,6 +708,13 @@ body.dark-theme .sidebar-lvl-3.active > a {
   margin: 10px 0;
   border-radius: 4px;
   font-family: Arial, sans-serif;
+}
+
+body.dark-theme .definition-small {
+  background-color: #4a5568;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border-left: 4px solid #fc8181;
+  color: #e0e0e0;
 }
 
 /* ===== BOLD TEXT STYLING ===== */
