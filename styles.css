@@ -678,11 +678,20 @@ body.dark-theme .sidebar-lvl-3.active > a {
   font-family: Arial, sans-serif;
 }
 .definition-small {
-  background-color: #f1f1f1;
+  background-color: #f8f7f7;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   border-left: 4px solid #d60000;
   padding: 15px;
   margin: 10px 0;
   border-radius: 4px;
   font-family: Arial, sans-serif;
+}
+
+/* ===== BOLD TEXT STYLING ===== */
+strong {
+    font-weight: bold;
+}
+
+body.dark-theme strong {
+    color: #ffffff;
 }
