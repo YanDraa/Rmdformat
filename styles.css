@@ -4,7 +4,7 @@
     position: fixed;
     left: 0;
     top: 0; /* Diubah dari top: 60px ke top: 0 agar sidebar menutupi header */
-    width: 250px;
+    width: 300px;
     height: 100vh; /* Diubah dari calc(100vh - 60px) ke 100vh agar sidebar penuh tinggi layar */
     background: #24313d;
     color: white;
@@ -31,7 +31,7 @@ body.sidebar-collapsed #sidebarToggleContainer {
 }
 
 #sidebar:not([style*="transform"]) ~ #sidebarToggleContainer {
-    left: 260px; /* Move to right of sidebar when open */
+    left: 310px; /* Move to right of sidebar when open */
 }
 
 #toggleSidebar {
@@ -125,8 +125,8 @@ body.dark-theme .sidebar-title {
 #topbar {
     position: fixed;
     top: 0;
-    left: 250px;
-    width: calc(100% - 250px);
+    left: 300px;
+    width: calc(100% - 300px);
     height: 60px;
     background: rgba(78, 78, 78, 0.5);
     backdrop-filter: blur(10px);
@@ -188,8 +188,8 @@ body.sidebar-collapsed #topbar {
 /* ===== BODY ADJUSTMENTS ===== */
 /* Body memiliki padding-top untuk header dan padding-left untuk sidebar terbuka, memberikan efek tergencet */
 body {
-    padding-top: 60px;
-    padding-left: 250px;
+    padding-top: 260px; /* 60px for topbar + 200px for header container */
+    padding-left: 300px;
     transition: all 0.3s ease;
     background-color: #faf0e6; /* Cream color for relaxed light mode */
 }
@@ -200,7 +200,7 @@ body.sidebar-collapsed {
 }
 
 body.sidebar-collapsed #sidebar {
-    transform: translateX(-250px); /* Disesuaikan dengan width sidebar (250px) untuk menyembunyikan sepenuhnya saat collapsed, dengan box-sizing: border-box */
+    transform: translateX(-300px); /* Disesuaikan dengan width sidebar (300px) untuk menyembunyikan sepenuhnya saat collapsed, dengan box-sizing: border-box */
 }
 
 /* No need to reposition toggleSidebar when collapsed - it stays on left */
@@ -219,9 +219,43 @@ body.sidebar-collapsed .sidebar-menu {
 }
 
 /* ===== RESPONSIVE ===== */
+/* Medium screens - smaller laptops */
+@media (max-width: 1200px) {
+    #sidebar {
+        width: 250px;
+    }
+
+    body {
+        padding-left: 250px;
+    }
+
+    body.sidebar-collapsed {
+        padding-left: 60px;
+    }
+
+    body.sidebar-collapsed #sidebar {
+        transform: translateX(-300px);
+    }
+
+    #topbar {
+        left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    body.sidebar-collapsed #topbar {
+        left: 0;
+        width: 100%;
+    }
+
+    #sidebar:not([style*="transform"]) ~ #sidebarToggleContainer {
+        left: 260px;
+    }
+}
+
 @media (max-width: 768px) {
     body {
         padding-left: 0;
+        padding-top: 60px;
         font-size: 14px; /* Smaller font for mobile */
     }
 
@@ -232,6 +266,10 @@ body.sidebar-collapsed .sidebar-menu {
     #sidebar {
         transform: translateY(-100%);
         width: 100%; /* Full width for mobile overlay */
+        left: 0;
+        top: 60px; /* Below topbar */
+        height: calc(100vh - 60px); /* Full height minus topbar */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     body.sidebar-mobile-open #sidebar {
@@ -260,16 +298,72 @@ body.sidebar-collapsed .sidebar-menu {
 
     /* Adjust topbar for mobile */
     #topbar {
+        left: 0;
+        width: 100%;
         padding: 0 15px;
+        height: 50px; /* Slightly smaller on mobile */
     }
 
     .title-center {
         font-size: 1em; /* Smaller title */
     }
 
-    /* Ensure toggle button is accessible */
+    /* Mobile toggle button positioning */
     #sidebarToggleContainer {
         left: 10px !important; /* Always on left */
+        top: 5px;
+    }
+
+    #toggleSidebar {
+        padding: 8px 12px; /* Smaller padding for mobile */
+        font-size: 14px;
+    }
+
+    /* Mobile sidebar content adjustments */
+    .sidebar-title {
+        font-size: 1.1em;
+        margin: 15px 0;
+    }
+
+    .sidebar-menu li a {
+        padding: 10px 12px;
+        font-size: 0.9em;
+    }
+
+    /* Mobile search adjustments */
+    #sidebarSearch {
+        font-size: 13px;
+        padding: 8px 30px 8px 12px;
+    }
+
+    #clearSearch {
+        right: 8px;
+        font-size: 12px;
+        padding: 3px;
+    }
+
+    /* Mobile author section */
+    .sidebar-author {
+        font-size: 0.8em;
+        padding-top: 8px;
+    }
+
+    /* Overlay for mobile when sidebar is open */
+    body.sidebar-mobile-open::before {
+        content: '';
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: rgba(0,0,0,0.5);
+        z-index: 1001;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Close sidebar when clicking overlay */
+    body.sidebar-mobile-open::before {
+        cursor: pointer;
     }
 }
 
@@ -303,16 +397,20 @@ body.sidebar-collapsed .sidebar-menu {
     padding: 20px;
 }
 
-.main-container p {
+p {
     text-align: justify;
 }
 
 /* Heading borders - none at all for clean background */
 h1{
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #4b575fc4;
 }
 
-h2, h3, h4, h5, h6 {
+h2 {
+    border-bottom: 2px solid #77777783;;
+}
+
+h3, h4, h5, h6 {
     border-bottom: none;
 }
 
@@ -324,104 +422,106 @@ h2, h3, h4, h5, h6 {
 
 /* ===== DARK THEME STYLING ===== */
 body.dark-theme {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+    background-color: #1B2326;
+    color: #F5FEFD;
 }
 
 body.dark-theme .main-container {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+    background-color: #1B2326;
+    color: #F5FEFD;
 }
 
 body.dark-theme #sidebar {
-    background: transparent;
+    background: #3A4F52;
 }
 
 body.dark-theme #topbar {
-    background: #2b6cb0;
+    background: #3a4f52b0;
+    
 }
 
 body.dark-theme .sidebar-menu li a {
-    color: #cbd5e0;
+    color: #F5FEFD;
 }
 
 body.dark-theme .sidebar-menu li a:hover {
-    color: white;
-    background: #4a5568;
+    color: #10F5CC;
+    background: rgba(58, 79, 82, 0.8);
 }
 
 /* Dark theme untuk konten R Markdown */
 body.dark-theme .container-fluid {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+    background-color: #1B2326;
+    color: #F5FEFD;
 }
 
 body.dark-theme pre {
-    background-color: #2d3748 !important;
-    color: #e2e8f0 !important;
-    border: 1px solid #4a5568;
+    background-color: #3A4F52 !important;
+    color: #F5FEFD !important;
+    border: 1px solid #10F5CC;
 }
 
 body.dark-theme code {
-    background-color: #2d3748 !important;
-    color: #e2e8f0 !important;
+    background-color: #3A4F52 !important;
+    color: #F5FEFD !important;
 }
 
 body.dark-theme table {
-    background-color: #2d3748;
-    color: #e0e0e0;
+    background-color: #3A4F52;
+    color: #F5FEFD;
 }
 
 body.dark-theme th {
-    background-color: #2b6cb0;
-    color: white;
+    background-color: #10F5CC;
+    color: #1B2326;
 }
 
 body.dark-theme td {
-    background-color: #2d3748;
-    color: #e0e0e0;
-    border-color: #4a5568;
+    background-color: #3A4F52;
+    color: #F5FEFD;
+    border-color: #10F5CC;
 }
 
 body.dark-theme h1 {
-    color: #63b3ed;
+    color: #fafffe;
     border-bottom: 2px solid #3498db;
 }
 
 body.dark-theme h2,
+
 body.dark-theme h3,
 body.dark-theme h4,
 body.dark-theme h5,
 body.dark-theme h6 {
-    color: #63b3ed;
-    border-bottom: none;
+    color: #fafffe;
+    border-bottom: #3498db;
 }
 
 /* Dark theme untuk elemen khusus Rmd */
 body.dark-theme .alert,
 body.dark-theme .panel,
 body.dark-theme .well {
-    background-color: #2d3748 !important;
-    color: #e0e0e0 !important;
-    border-color: #4a5568 !important;
+    background-color: #3A4F52 !important;
+    color: #F5FEFD !important;
+    border-color: #10F5CC !important;
 }
 
 body.dark-theme .btn-default {
-    background-color: #4a5568;
-    color: #e0e0e0;
-    border-color: #718096;
+    background-color: #3A4F52;
+    color: #F5FEFD;
+    border-color: #10F5CC;
 }
 
 body.dark-theme a {
-    color: #63b3ed;
+    color: #10F5CC;
 }
 
 body.dark-theme a:hover {
-    color: #90cdf4;
+    color: #F5FEFD;
 }
 
 body.dark-theme a:visited {
-    color: #9de9ff;
+    color: #A0F8E8;
 }
 
 /* ===== ENHANCED FEATURES ===== */
@@ -482,18 +582,19 @@ body.theme-transition {
 
 /* Dark theme enhancements untuk fitur baru */
 body.dark-theme #sidebarSearch {
-    background: #4a5568;
-    border-color: #718096;
-    color: #e2e8f0;
+    background: #3A4F52;
+    border-color: #10F5CC;
+    color: #F5FEFD;
 }
 
 body.dark-theme #sidebarSearch::placeholder {
-    color: #a0aec0;
+    color: rgba(245, 254, 253, 0.7);
 }
 
 body.dark-theme #sidebarSearch:focus {
-    background: #4a5568;
-    border-color: #63b3ed;
+    background: #3A4F52;
+    border-color: #10F5CC;
+    box-shadow: 0 0 5px rgba(16, 245, 204, 0.5);
 }
 
 /* Hover effects untuk menu */
@@ -509,7 +610,7 @@ body.dark-theme #sidebarSearch:focus {
     top: 0;
     height: 100%;
     width: 3px;
-    background: #3498db;
+    background: #10F5CC;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -565,8 +666,8 @@ body.dark-theme #sidebarSearch:focus {
 
 /* Dark theme for author */
 body.dark-theme .sidebar-author {
-    color: #cbd5e0;
-    border-top: none;
+    color: #F5FEFD;
+    border-top: 1px solid #10F5CC;
 }
 
 /* ===== SIMPLE AUTO SIDEBAR STYLING ===== */
@@ -652,29 +753,32 @@ body.dark-theme .sidebar-author {
 
 /* Dark theme */
 body.dark-theme .sidebar-lvl-1 > a {
-    background: rgba(94, 170, 224, 0.15);
+    background: rgba(16, 245, 204, 0.1);
     border-left: none;
 }
 
 body.dark-theme .sidebar-lvl-2 > a {
-    border-left-color: #fc8181;
+    border-left-color: #10F5CC;
 }
 
 body.dark-theme .sidebar-lvl-3 > a {
-    border-left-color: #faf089;
-    color: #a0aec0;
+    border-left-color: #10F5CC;
+    color: rgba(245, 254, 253, 0.8);
 }
 
 body.dark-theme .sidebar-menu li.active > a {
-    background: transparent !important;
+    background: rgba(16, 245, 204, 0.2) !important;
+    color: #10F5CC !important;
 }
 
 body.dark-theme .sidebar-lvl-2.active > a {
-    background: transparent !important;
+    background: rgba(16, 245, 204, 0.15) !important;
+    color: #10F5CC !important;
 }
 
 body.dark-theme .sidebar-lvl-3.active > a {
-    background: transparent !important;
+    background: rgba(16, 245, 204, 0.15) !important;
+    color: #10F5CC !important;
 }
 
 body.dark-theme .sidebar-lvl-1 > a,
@@ -694,10 +798,10 @@ body.dark-theme .sidebar-lvl-3 > a {
 }
 
 body.dark-theme .definition {
-  background-color: #2d3748;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  border-left: 4px solid #63b3ed;
-  color: #e0e0e0;
+  background-color: #3A4F52;
+  box-shadow: 0 4px 10px rgba(16, 245, 204, 0.2);
+  border-left: 4px solid #10F5CC;
+  color: #F5FEFD;
 }
 
 .definition-small {
@@ -711,10 +815,10 @@ body.dark-theme .definition {
 }
 
 body.dark-theme .definition-small {
-  background-color: #4a5568;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  border-left: 4px solid #fc8181;
-  color: #e0e0e0;
+  background-color: #3A4F52;
+  box-shadow: 0 4px 10px rgba(16, 245, 204, 0.2);
+  border-left: 4px solid #10F5CC;
+  color: #F5FEFD;
 }
 
 /* ===== BOLD TEXT STYLING ===== */
@@ -723,5 +827,63 @@ strong {
 }
 
 body.dark-theme strong {
-    color: #ffffff;
+    color: #F5FEFD;
+}
+
+/* Hide default author and date from YAML */
+.author, .date {
+    display: none;
+}
+
+/* Header container positioning */
+.header-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 350px; /* Increased height to prevent bottom overlap */
+    padding: 10px 0; /* Add padding for better spacing */
+}
+
+/* Foto positioning and animation: start centered, move to left, top layer */
+#Foto {
+    position: absolute;
+    left: 50%;
+    top: 50px; /* Adjust this value to move the photo down */
+    transform: translateX(-50%);
+    opacity: 0;
+    z-index: 10;
+    animation: moveToLeft 1s ease-in-out 1s forwards;
+}
+
+@keyframes moveToLeft {
+    0% {
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-480px); /* Adjust this value to control how far left it moves */
+        opacity: 1;
+    }
+}
+
+/* Author-info positioning and animation: start centered, move to right, below photo */
+.author-info {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    z-index: 5;
+    animation: moveToRight 1s ease-in-out 1.2s forwards;
+}
+
+@keyframes moveToRight {
+    0% {
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(25px); /* Further reduced to make the movement less far to the right */
+        opacity: 1;
+    }
 }
