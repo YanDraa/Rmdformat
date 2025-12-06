@@ -1,5 +1,5 @@
 /* ===== SIDEBAR STYLING ===== */
-/* Sidebar dimulai dari atas (top: 0) untuk menutupi header saat terbuka, memberikan efek memotong header */
+
 #sidebar {
     position: fixed;
     left: 0;
@@ -1146,4 +1146,5 @@ body.dark-theme #rotating-text-header.transitioning {
     white-space: nowrap;
     overflow: visible;
 }
+
 
