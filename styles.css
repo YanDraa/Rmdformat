@@ -72,7 +72,7 @@ body.sidebar-collapsed #sidebarToggleContainer {
     border-bottom: 2px solid #3498db;
     padding-bottom: 10px;
     margin: 20px 0 20px 0;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 body.dark-theme .sidebar-title {
@@ -835,6 +835,44 @@ body.dark-theme strong {
     display: none;
 }
 
+/* ===== ROTATING TEXT STYLING ===== */
+.text-rotate {
+  display: flex;
+  flex-wrap: w  rap;
+  white-space: pre-wrap;
+  position: relative;
+}
+
+.text-rotate-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-rotate-word {
+  display: inline-flex;
+}
+
+.text-rotate-lines {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.text-rotate-element {
+  display: inline-block;
+}
+
+.text-rotate-space {
+  white-space: pre;
+}
+
 /* Header container positioning */
 .header-container {
     position: relative;
@@ -870,7 +908,7 @@ body.dark-theme strong {
 /* Author-info positioning and animation: start centered, move to right, below photo */
 .author-info {
     position: absolute;
-    left: 50%;
+    left: 20%;
     transform: translateX(-50%);
     opacity: 0;
     z-index: 5;
@@ -883,7 +921,229 @@ body.dark-theme strong {
         opacity: 0;
     }
     100% {
-        transform: translateX(25px); /* Further reduced to make the movement less far to the right */
+        transform: translateX(100px); /* Further reduced to make the movement less far to the right */
         opacity: 1;
     }
 }
+
+/* Rotating Text Styles */
+/* ===== ENHANCED ROTATING TEXT ANIMATION ===== */
+
+#rotating-text-header {
+    display: inline-flex !important;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    background-color: #C6F10E;
+    color: black;
+    padding: 2px 12px;
+    vertical-align: middle;
+    min-height: 1.8em;
+    transition: 
+        width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        min-width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        padding 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-sizing: border-box;
+    white-space: nowrap;
+    will-change: width, min-width;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+
+/* Smooth width expansion animation */
+#rotating-text-header.width-expanding {
+    transition: 
+        width 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        min-width 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#rotating-text-header.width-shrinking {
+    transition: 
+        width 0.18s cubic-bezier(0.87, 0, 0.13, 1),
+        min-width 0.18s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* Character animation */
+.text-rotate-element {
+    display: inline-block;
+    text-transform: none;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    contain: layout style paint;
+}
+
+/* Quick character slide-in animation */
+.text-rotate-element.slide-in {
+    animation: quickSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes quickSlideIn {
+    0% {
+        transform: translateY(100%) scale(0.8);
+        opacity: 0;
+    }
+    70% {
+        transform: translateY(-10%) scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Quick character slide-out animation */
+.text-rotate-element.slide-out {
+    animation: quickSlideOut 0.35s cubic-bezier(0.87, 0, 0.13, 1) forwards;
+}
+
+@keyframes quickSlideOut {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    30% {
+        transform: translateY(-10%) scale(1.05);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-120%) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Container glow effect during transition */
+#rotating-text-header.transitioning {
+    border-color: rgba(198, 241, 14, 0.3);
+    box-shadow: 
+        0 2px 8px rgba(198, 241, 14, 0.2),
+        0 0 0 2px rgba(198, 241, 14, 0.1);
+}
+
+/* Staggered character animation delays */
+.text-rotate-element:nth-child(1) { animation-delay: 0.05s; }
+.text-rotate-element:nth-child(2) { animation-delay: 0.07s; }
+.text-rotate-element:nth-child(3) { animation-delay: 0.09s; }
+.text-rotate-element:nth-child(4) { animation-delay: 0.11s; }
+.text-rotate-element:nth-child(5) { animation-delay: 0.13s; }
+.text-rotate-element:nth-child(6) { animation-delay: 0.15s; }
+.text-rotate-element:nth-child(7) { animation-delay: 0.17s; }
+.text-rotate-element:nth-child(8) { animation-delay: 0.19s; }
+.text-rotate-element:nth-child(9) { animation-delay: 0.21s; }
+.text-rotate-element:nth-child(10) { animation-delay: 0.23s; }
+
+/* Dark theme support */
+body.dark-theme #rotating-text-header {
+    background-color: #C6F10E;
+    color: #1B2326;
+    box-shadow: 0 2px 8px rgba(198, 241, 14, 0.3);
+}
+
+body.dark-theme #rotating-text-header.transitioning {
+    border-color: rgba(198, 241, 14, 0.5);
+    box-shadow: 
+        0 2px 12px rgba(198, 241, 14, 0.4),
+        0 0 0 2px rgba(198, 241, 14, 0.2);
+}
+
+/* Smooth content resize animation */
+#rotating-text-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+#rotating-text-header.resizing::after {
+    opacity: 1;
+    animation: shimmer 0.5s ease-in-out;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #rotating-text-header {
+        font-size: 1.2rem;
+        padding: 2px 10px;
+        min-height: 1.6em;
+        transition: 
+            width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            min-width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    #rotating-text-header.width-expanding,
+    #rotating-text-header.width-shrinking {
+        transition-duration: 0.15s;
+    }
+}
+
+/* Performance optimization */
+@media (prefers-reduced-motion: reduce) {
+    #rotating-text-header,
+    #rotating-text-header.width-expanding,
+    #rotating-text-header.width-shrinking,
+    .text-rotate-element {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Special effects for longer words */
+#rotating-text-header.long-text {
+    transition: 
+        width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        min-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#rotating-text-header.short-text {
+    transition: 
+        width 0.2s cubic-bezier(0.87, 0, 0.13, 1),
+        min-width 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* Pastikan text-rotate-element selalu inline */
+.text-rotate-element {
+    display: inline-block !important;
+    vertical-align: baseline;
+    position: relative;
+}
+
+/* Container yang fleksibel */
+#rotating-text-header {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible; /* Changed from hidden to visible */
+    white-space: nowrap;
+}
+
+/* Untuk mencegah text terpotong */
+#rotating-text-header span {
+    white-space: nowrap;
+    overflow: visible;
+}
+
