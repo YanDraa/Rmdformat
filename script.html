@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     initSmoothScroll();
     initSmartAutoSidebar();
     initSearch();
+    initRotatingText();
 });
 
 function buildSmartSidebar() {
@@ -517,6 +518,145 @@ function initSearch() {
     });
 }
 
+// Rotating Text Animation Function
+// Optimized Rotating Text Animation - FIXED inline display
+function initRotatingText() {
+    let headerTexts = ["Data Analytics", "Data Security", "JavaScript", "Python", "Java", "SQL", "C", "R"];
+    
+    if (typeof texts !== 'undefined') {
+        headerTexts = texts;
+    }
+
+    const rotatingTextHeader = document.getElementById('rotating-text-header');
+    if (!rotatingTextHeader) return;
+
+    let currentIndex = 0;
+    let isAnimating = false;
+    
+    // Initialize with first text
+    function initializeFirstText() {
+        if (headerTexts.length === 0) return;
+        
+        const initialText = headerTexts[0];
+        rotatingTextHeader.innerHTML = '';
+        
+        const characters = initialText.split('');
+        characters.forEach(char => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.className = 'text-rotate-element';
+            span.style.display = 'inline-block';
+            span.style.transform = 'translateY(0)';
+            span.style.opacity = '1';
+            rotatingTextHeader.appendChild(span);
+        });
+        
+        // Set initial width based on actual content
+        const tempSpan = document.createElement('span');
+        tempSpan.style.position = 'absolute';
+        tempSpan.style.visibility = 'hidden';
+        tempSpan.style.whiteSpace = 'nowrap';
+        tempSpan.style.fontWeight = 'bold';
+        tempSpan.style.fontSize = getComputedStyle(rotatingTextHeader).fontSize;
+        tempSpan.textContent = initialText;
+        document.body.appendChild(tempSpan);
+        const initialWidth = tempSpan.offsetWidth + 24;
+        document.body.removeChild(tempSpan);
+        
+        rotatingTextHeader.style.width = initialWidth + 'px';
+        rotatingTextHeader.style.minWidth = initialWidth + 'px';
+        
+        currentIndex = 1; // Start from next item
+    }
+    
+    function animateTransition() {
+        if (isAnimating || headerTexts.length === 0) return;
+        isAnimating = true;
+        
+        const currentText = headerTexts[(currentIndex - 1 + headerTexts.length) % headerTexts.length];
+        const nextText = headerTexts[currentIndex];
+        
+        // Phase 1: Animate current text out
+        const currentSpans = Array.from(rotatingTextHeader.querySelectorAll('.text-rotate-element'));
+        
+        if (currentSpans.length > 0) {
+            currentSpans.forEach((span, index) => {
+                span.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+                span.style.transitionDelay = `${index * 15}ms`;
+                span.style.transform = 'translateY(-120%)';
+                span.style.opacity = '0';
+            });
+        }
+        
+        // Calculate new width while text is animating out
+        setTimeout(() => {
+            const tempSpan = document.createElement('span');
+            tempSpan.style.position = 'absolute';
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.whiteSpace = 'nowrap';
+            tempSpan.style.fontWeight = 'bold';
+            tempSpan.style.fontSize = getComputedStyle(rotatingTextHeader).fontSize;
+            tempSpan.textContent = nextText;
+            document.body.appendChild(tempSpan);
+            const newWidth = tempSpan.offsetWidth + 24;
+            document.body.removeChild(tempSpan);
+            
+            // Phase 2: Resize container QUICKLY (before new text appears)
+            rotatingTextHeader.style.transition = 'width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            rotatingTextHeader.style.width = newWidth + 'px';
+            rotatingTextHeader.style.minWidth = newWidth + 'px';
+            
+            // Phase 3: Clear old text and add new text after container resizes
+            setTimeout(() => {
+                rotatingTextHeader.innerHTML = '';
+                
+                const characters = nextText.split('');
+                const newSpans = characters.map(char => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.className = 'text-rotate-element';
+                    span.style.display = 'inline-block';
+                    span.style.transform = 'translateY(100%)';
+                    span.style.opacity = '0';
+                    rotatingTextHeader.appendChild(span);
+                    return span;
+                });
+                
+                // Phase 4: Animate new text in
+                setTimeout(() => {
+                    newSpans.forEach((span, index) => {
+                        span.style.transition = 'transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
+                        span.style.transitionDelay = `${(characters.length - 1 - index) * 20}ms`;
+                        span.style.transform = 'translateY(0)';
+                        span.style.opacity = '1';
+                    });
+                    
+                    // Reset and prepare for next animation
+                    setTimeout(() => {
+                        // Remove inline styles for next iteration
+                        newSpans.forEach(span => {
+                            span.style.transition = '';
+                            span.style.transitionDelay = '';
+                            span.style.transform = '';
+                            span.style.opacity = '';
+                        });
+                        
+                        currentIndex = (currentIndex + 1) % headerTexts.length;
+                        isAnimating = false;
+                    }, 400 + characters.length * 20);
+                }, 50);
+            }, 150); // Start adding new text slightly before container finishes resizing
+        }, 300 + currentSpans.length * 15);
+    }
+    
+    // Initialize
+    initializeFirstText();
+    
+    // Start animation loop
+    setTimeout(() => {
+        setInterval(animateTransition, 2000);
+    }, 1000);
+}
 
 </script>
 
