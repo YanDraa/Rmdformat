@@ -1,5 +1,5 @@
 /* ===== SIDEBAR STYLING ===== */
-
+/* Sidebar dimulai dari atas (top: 0) untuk menutupi header saat terbuka, memberikan efek memotong header */
 #sidebar {
     position: fixed;
     left: 0;
@@ -128,7 +128,7 @@ body.dark-theme .sidebar-title {
     left: 300px;
     width: calc(100% - 300px);
     height: 60px;
-    background: rgba(78, 78, 78, 0.5);
+    background: rgba(136, 133, 133, 0.5);
     backdrop-filter: blur(10px);
     color: white;
     display: flex;
@@ -841,6 +841,7 @@ body.dark-theme strong {
   flex-wrap: w  rap;
   white-space: pre-wrap;
   position: relative;
+  font-weight: bold;
 }
 
 .text-rotate-sr-only {
@@ -883,45 +884,54 @@ body.dark-theme strong {
     padding: 10px 0; /* Add padding for better spacing */
 }
 
-/* Foto positioning and animation: start centered, move to left, top layer */
+/* Foto positioning and animation: simple fade-in at center, stay 2s, then move left in 1s */
 #Foto {
     position: absolute;
     left: 50%;
-    top: 50px; /* Adjust this value to move the photo down */
-    transform: translateX(-50%);
+    top: 50px;
+    transform: translateX(-50%) scale(1);
     opacity: 0;
     z-index: 10;
-    animation: moveToLeft 1s ease-in-out 1s forwards;
+    animation: photoFullEntrance 1.5s ease-out 0.5s forwards;
 }
 
-@keyframes moveToLeft {
+@keyframes photoFullEntrance {
     0% {
-        transform: translateX(-50%);
+        transform: translateX(-50%) scale(1);
         opacity: 0;
     }
+    25% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+    75% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
     100% {
-        transform: translateX(-480px); /* Adjust this value to control how far left it moves */
+        transform: translateX(-480px) scale(1);
         opacity: 1;
     }
 }
 
-/* Author-info positioning and animation: start centered, move to right, below photo */
+
+/* Author-info positioning and animation: simple entrance with fade, behind photo */
 .author-info {
     position: absolute;
     left: 20%;
     transform: translateX(-50%);
     opacity: 0;
-    z-index: 5;
-    animation: moveToRight 1s ease-in-out 1.2s forwards;
+    z-index: 1;
+    animation: simpleAuthorEntrance 1s ease-out 2.1s forwards;
 }
 
-@keyframes moveToRight {
+@keyframes simpleAuthorEntrance {
     0% {
-        transform: translateX(-50%);
+        transform: translateX(-10%);
         opacity: 0;
     }
     100% {
-        transform: translateX(100px); /* Further reduced to make the movement less far to the right */
+        transform: translateX(100px);
         opacity: 1;
     }
 }
@@ -1146,5 +1156,4 @@ body.dark-theme #rotating-text-header.transitioning {
     white-space: nowrap;
     overflow: visible;
 }
-
 
