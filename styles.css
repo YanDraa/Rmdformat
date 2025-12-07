@@ -899,14 +899,23 @@ body.dark-theme strong {
     0% {
         transform: translateX(-50%) scale(1);
         opacity: 0;
+        border-radius: 50%;
+        background-color: #ffffff;
+        border: 1 black;
     }
     25% {
         transform: translateX(-50%) scale(1);
         opacity: 1;
+        border-radius: 75%;
+        background-color: #ffffff;
+        border: 1 black;
     }
     75% {
         transform: translateX(-50%) scale(1);
         opacity: 1;
+        border-radius: 95%;
+        background-color: #ffffff;
+        border: 1 black;
     }
     100% {
         transform: translateX(-480px) scale(1);
@@ -929,6 +938,7 @@ body.dark-theme strong {
     0% {
         transform: translateX(-10%);
         opacity: 0;
+        
     }
     100% {
         transform: translateX(100px);
