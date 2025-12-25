@@ -1,60 +1,94 @@
 <script>
+console.group('Document Initialization');
+console.log('DOM Content Loaded - Starting page setup...');
+
 document.addEventListener("DOMContentLoaded", function() {
+    console.time('Page Initialization Time');
 
     // Ambil title dari halaman
      // Ambil title dari halaman (hasil render YAML)
     var pageTitle = document.querySelector("h1.title")?.innerText || "Judul Tidak Ada";
+    console.log('Page Title:', pageTitle);
 
     // Jika ingin subtitle:
     var pageSubtitle = document.querySelector("h4.subtitle")?.innerText || "";
+    console.log('Page Subtitle:', pageSubtitle || 'None');
 
     // Ambil author dari halaman (hasil render YAML)
     var pageAuthor = document.querySelector("p.author")?.innerText ||
                      document.querySelector(".author")?.innerText ||
                      "Author Tidak Ada";
+    console.log('Page Author:', pageAuthor);
 
     // Set ke sidebar
-    document.getElementById("sidebarTitle").innerText = pageTitle;
+    const sidebarTitleEl = document.getElementById("sidebarTitle");
+    if (sidebarTitleEl) {
+        sidebarTitleEl.innerText = pageTitle;
+        console.log('Sidebar title set successfully');
+    } else {
+        console.warn('Sidebar title element not found');
+    }
 
     // Set ke topbar
-    document.getElementById("pageTitle").innerText = pageTitle;
+    const pageTitleEl = document.getElementById("pageTitle");
+    if (pageTitleEl) {
+        pageTitleEl.innerText = pageTitle;
+        console.log('Topbar title set successfully');
+    } else {
+        console.warn('Topbar title element not found');
+    }
 
     // Set author ke sidebar
     const authorDiv = document.querySelector('.sidebar-author');
-    if (authorDiv && pageAuthor !== "Author Tidak Ada") {   
+    if (authorDiv && pageAuthor !== "Author Tidak Ada") {
         authorDiv.innerHTML = pageAuthor.replace(/\n/g, '<br>');
+        console.log('Author info set in sidebar successfully');
+    } else {
+        console.log('Author info not set (no author div or default author)');
     }
 
     // Set initial collapsed state
     document.body.classList.add('sidebar-collapsed');
+    console.log('Sidebar set to collapsed state');
 
     // Build sidebar dengan smart detection
+    console.log('Building smart sidebar...');
     buildSmartSidebar();
 
     // Initialize fitur dasar
+    console.log('Initializing UI features...');
     initSidebarToggle();
     initThemeToggle();
     initSmoothScroll();
     initSmartAutoSidebar();
     initSearch();
     initRotatingText();
+
+    console.timeEnd('Page Initialization Time');
+    console.log('Page initialization complete');
+    console.groupEnd();
 });
 
-
-
-
 function buildSmartSidebar() {
+    console.log('buildSmartSidebar: Starting sidebar construction');
+
     const sidebarMenu = document.querySelector(".sidebar-menu");
-    if (!sidebarMenu) return;
+    if (!sidebarMenu) {
+        console.warn('buildSmartSidebar: Sidebar menu element not found');
+        return;
+    }
 
     sidebarMenu.innerHTML = "";
+    console.log('buildSmartSidebar: Cleared existing sidebar content');
 
-    const main = document.querySelector(".main-container") || 
-                 document.querySelector(".container-fluid") || 
+    const main = document.querySelector(".main-container") ||
+                 document.querySelector(".container-fluid") ||
                  document.body;
 
     // DEBUG: Lihat semua heading dan parent-nya
     const allHeadings = Array.from(main.querySelectorAll("h1, h2, h3"));
+    console.log(`buildSmartSidebar: Found ${allHeadings.length} total headings`);
+
     allHeadings.forEach((h, i) => {
         console.log(`Heading ${i}:`, {
             text: h.textContent.substring(0, 50),
@@ -78,26 +112,35 @@ function buildSmartSidebar() {
         !h.querySelector('.author-info')
     );
 
+    console.log(`buildSmartSidebar: Filtered to ${headings.length} valid markdown headings`);
+
     let currentH1 = null;
     let currentH2 = null;
+    let hasH1 = headings.some(h => parseInt(h.tagName.substring(1)) === 1);
+
+    console.log(`buildSmartSidebar: H1 presence detected: ${hasH1}`);
 
     headings.forEach((heading, index) => {
         const level = parseInt(heading.tagName.substring(1));
-        
+
+        // Jika tidak ada H1, treat H2 sebagai H1, H3 sebagai H2
+        const effectiveLevel = (!hasH1 && level === 2) ? 1 : (!hasH1 && level === 3) ? 2 : level;
+
         if (!heading.id) {
             heading.id = `section-${index}-${Date.now()}`;
+            console.log(`buildSmartSidebar: Assigned ID ${heading.id} to heading "${heading.textContent.substring(0, 30)}..."`);
         }
 
         const li = document.createElement("li");
-        li.className = `sidebar-lvl-${level}`;
-        li.setAttribute('data-level', level);
+        li.className = `sidebar-lvl-${effectiveLevel}`;
+        li.setAttribute('data-level', effectiveLevel);
         li.setAttribute('data-heading-id', heading.id);
 
         const a = document.createElement("a");
         a.href = "#" + heading.id;
         a.textContent = heading.textContent;
         a.setAttribute('data-section', heading.id);
-        
+
         a.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
@@ -106,35 +149,43 @@ function buildSmartSidebar() {
                     behavior: 'smooth',
                     block: 'start'
                 });
+                console.log(`buildSmartSidebar: Smooth scroll to section ${heading.id}`);
             }
         });
-        
+
         li.appendChild(a);
 
-        // Atur hierarchy berdasarkan level
-        if (level === 1) {
+        // Atur hierarchy berdasarkan effective level
+        if (effectiveLevel === 1) {
             sidebarMenu.appendChild(li);
             currentH1 = li;
             currentH2 = null;
-        } else if (level === 2 && currentH1) {
+            console.log(`buildSmartSidebar: Added level 1 item: ${heading.textContent.substring(0, 30)}...`);
+        } else if (effectiveLevel === 2 && currentH1) {
             let h2Container = currentH1.querySelector('.h2-container');
             if (!h2Container) {
                 h2Container = document.createElement('ul');
                 h2Container.className = 'h2-container collapsed';
                 currentH1.appendChild(h2Container);
+                console.log('buildSmartSidebar: Created H2 container');
             }
             h2Container.appendChild(li);
             currentH2 = li;
-        } else if (level === 3 && currentH2) {
+            console.log(`buildSmartSidebar: Added level 2 item: ${heading.textContent.substring(0, 30)}...`);
+        } else if (effectiveLevel === 3 && currentH2) {
             let h3Container = currentH2.querySelector('.h3-container');
             if (!h3Container) {
                 h3Container = document.createElement('ul');
                 h3Container.className = 'h3-container collapsed';
                 currentH2.appendChild(h3Container);
+                console.log('buildSmartSidebar: Created H3 container');
             }
             h3Container.appendChild(li);
+            console.log(`buildSmartSidebar: Added level 3 item: ${heading.textContent.substring(0, 30)}...`);
         }
     });
+
+    console.log('buildSmartSidebar: Sidebar construction completed');
 }
 
 
