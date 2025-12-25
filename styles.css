@@ -76,7 +76,7 @@ body.sidebar-collapsed #sidebarToggleContainer {
 }
 
 body.dark-theme .sidebar-title {
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #48aa89;
 }
 
 .sidebar-menu {
@@ -407,7 +407,7 @@ h1{
 }
 
 h2 {
-    border-bottom: 2px solid #77777783;;
+    border-bottom: 2px solid #77777783;
 }
 
 h3, h4, h5, h6 {
@@ -484,11 +484,13 @@ body.dark-theme td {
 
 body.dark-theme h1 {
     color: #fafffe;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #2bcfc7;
 }
 
-body.dark-theme h2,
-
+body.dark-theme h2{
+    color: #fafffe;
+    border-bottom: 2px solid #a1a1a183;
+}
 body.dark-theme h3,
 body.dark-theme h4,
 body.dark-theme h5,
@@ -799,8 +801,8 @@ body.dark-theme .sidebar-lvl-3 > a {
 
 body.dark-theme .definition {
   background-color: #3A4F52;
-  box-shadow: 0 4px 10px rgba(16, 245, 204, 0.2);
-  border-left: 4px solid #10F5CC;
+  box-shadow: 0 4px 10px  rgba(26, 11, 2, 0.2);
+  border-left: 4px solid #263f92b0;
   color: #F5FEFD;
 }
 
@@ -816,8 +818,8 @@ body.dark-theme .definition {
 
 body.dark-theme .definition-small {
   background-color: #3A4F52;
-  box-shadow: 0 4px 10px rgba(16, 245, 204, 0.2);
-  border-left: 4px solid #10F5CC;
+  box-shadow: 0 4px 10px rgba(26, 11, 2, 0.2);
+  border-left: 4px solid #831818c0;
   color: #F5FEFD;
 }
 
