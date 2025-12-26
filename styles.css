@@ -406,11 +406,7 @@ h1{
     border-bottom: 2px solid #4b575fc4;
 }
 
-h2 {
-    border-bottom: 2px solid #77777783;
-}
-
-h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
     border-bottom: none;
 }
 
@@ -487,10 +483,7 @@ body.dark-theme h1 {
     border-bottom: 2px solid #2bcfc7;
 }
 
-body.dark-theme h2{
-    color: #fafffe;
-    border-bottom: 2px solid #a1a1a183;
-}
+body.dark-theme h2,
 body.dark-theme h3,
 body.dark-theme h4,
 body.dark-theme h5,
@@ -1168,4 +1161,3 @@ body.dark-theme #rotating-text-header.transitioning {
     white-space: nowrap;
     overflow: visible;
 }
-
