@@ -215,7 +215,7 @@ function isMarkdownGeneratedHeading(headingElement) {
     
     // 4. Deteksi berdasarkan text pattern
     // Heading HTML manual sering pendek atau spesifik
-    const isLongEnough = text.length > 5;
+    const isLongEnough = text.length > 2;
     const hasNormalText = !text.match(/^[0-9\.\s]+$/) && // bukan cuma angka/titik
                          !text.match(/^[A-Z\s]+$/) &&    // bukan cuma uppercase
                          text.indexOf('<') === -1;       // tidak mengandung HTML tags
@@ -713,5 +713,6 @@ function initRotatingText() {
 }
 
 </script>
+
 
 
