@@ -69,14 +69,14 @@ body.sidebar-collapsed #sidebarToggleContainer {
 
 .sidebar-title {
     color: #ecf0f1;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #818e97;
     padding-bottom: 10px;
     margin: 20px 0 20px 0;
     font-size: 1em;
 }
 
 body.dark-theme .sidebar-title {
-    border-bottom: 2px solid #48aa89;
+    border-bottom: 2px solid #93a3ad;
 }
 
 .sidebar-menu {
@@ -406,7 +406,7 @@ h1{
     border-bottom: 2px solid #4b575fc4;
 }
 
-h2, h3, h4, h5, h6 {
+h2h3, h4, h5, h6 {
     border-bottom: none;
 }
 
@@ -480,7 +480,7 @@ body.dark-theme td {
 
 body.dark-theme h1 {
     color: #fafffe;
-    border-bottom: 2px solid #2bcfc7;
+    border-bottom: 2px solid #647079;
 }
 
 body.dark-theme h2,
@@ -785,7 +785,7 @@ body.dark-theme .sidebar-lvl-3 > a {
 .definition {
   background-color: #f1f1f1;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  border-left: 4px solid #2196F3;
+  border-left: 4px solid #1b85ff;
   padding: 15px;
   margin: 10px 0;
   border-radius: 4px;
@@ -794,8 +794,8 @@ body.dark-theme .sidebar-lvl-3 > a {
 
 body.dark-theme .definition {
   background-color: #3A4F52;
-  box-shadow: 0 4px 10px  rgba(26, 11, 2, 0.2);
-  border-left: 4px solid #263f92b0;
+  box-shadow: 0 4px 10px rgba(16, 245, 204, 0.2);
+  border-left: 4px solid #2567ca;
   color: #F5FEFD;
 }
 
@@ -811,9 +811,34 @@ body.dark-theme .definition {
 
 body.dark-theme .definition-small {
   background-color: #3A4F52;
-  box-shadow: 0 4px 10px rgba(26, 11, 2, 0.2);
-  border-left: 4px solid #831818c0;
+  box-shadow: 0 4px 10px rgba(16, 245, 204, 0.2);
+  border-left: 4px solid #c50000d7;
   color: #F5FEFD;
+}
+
+.definition-sidebyside {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  padding: 0;
+}
+
+.definition-sidebyside .definition-small {
+  flex: 1;
+  margin: 0;
+  border-left: none;
+}
+
+.definition-sidebyside .definition {
+  border-left: none;
+}
+
+body.dark-theme .definition-sidebyside .definition-small {
+  border-left: none;
+}
+
+body.dark-theme .definition-sidebyside .definition {
+  border-left: none;
 }
 
 /* ===== BOLD TEXT STYLING ===== */
@@ -1161,3 +1186,4 @@ body.dark-theme #rotating-text-header.transitioning {
     white-space: nowrap;
     overflow: visible;
 }
+
