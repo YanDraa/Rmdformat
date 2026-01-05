@@ -1,0 +1,54 @@
+---
+title: "Statistical Inferences"
+subtitle: "Assignment Week 14"
+author: "Fityanandra Athar Adyaksa (52250059)"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    number_sections: false
+    lib_dir: libs
+    df_print: "paged"
+    code_folding: "hide"
+    toc: false
+    toc_float: true
+    toc_collapsed: false
+    theme:
+      bootswatch: lux
+    css: "styles.css"
+    includes:
+      in_header: "header.html"
+      after_body: "script.html"
+    bibliography: references.bib
+---
+
+```{r, echo=FALSE}
+texts <- c("fill This", "fill This", "fill This", "fill This", "fill This","fill This", "fill This")
+```
+
+<div class="header-container">
+  <img id="Foto" src="img/FotoAndra.png" alt="Foto" style="width:300px;">
+  <h1><div class="author-info" style="margin-top: -100px;">
+  <strong>`r rmarkdown::metadata$author`
+  <br>
+  <br>
+  <br>
+  <div style="font-size: 1em; font-weight: bold; margin: 0; padding: 0;">Data Science students at <a href="https://itsb.ac.id/"><img src="img/logoITSB.png" style="height: 0.74em; vertical-align: baseline; margin-left: 0px;"></a></div>
+  <h3 className="text-2xl text-white font-bold flex-shrink-0">Enthusiastic about learning
+  <span id="rotating-text-header" class="text-rotate" style="display: inline; background-color: #C6F10E; margin-left: 0px; padding: 1px 15px; color: black; overflow: hidden; border-radius: 8px; font-weight: bold; font-size: 1.5rem; display: inline-flex; align-items: center; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></span></h3>
+  <h5>`r format(Sys.Date(), '%B %d, %Y')`</strong></h5>
+  </div>
+  </h1>
+</div>
+<script>
+const texts = `r jsonlite::toJSON(texts)`;
+</script>
+
+```{r setup, include=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
+library(jsonlite)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
