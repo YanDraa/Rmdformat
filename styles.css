@@ -1,5 +1,3 @@
-/*Made By Fityanandra Athar Adyaksa*/
-
 #sidebar {
     position: fixed;
     left: 0;
@@ -1186,5 +1184,6 @@ body.dark-theme #rotating-text-header.transitioning {
     white-space: nowrap;
     overflow: visible;
 }
+
 
 
