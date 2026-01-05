@@ -1,18 +1,18 @@
-/* ===== SIDEBAR STYLING ===== */
-/* Sidebar dimulai dari atas (top: 0) untuk menutupi header saat terbuka, memberikan efek memotong header */
+/*Made By Fityanandra Athar Adyaksa*/
+
 #sidebar {
     position: fixed;
     left: 0;
-    top: 0; /* Diubah dari top: 60px ke top: 0 agar sidebar menutupi header */
+    top: 0;
     width: 300px;
-    height: 100vh; /* Diubah dari calc(100vh - 60px) ke 100vh agar sidebar penuh tinggi layar */
+    height: 100vh;
     background: #24313d;
     color: white;
     padding: 20px;
     overflow-y: auto;
-    z-index: 1002; /* Z-index lebih tinggi dari topbar (1001) agar sidebar menutupi header sepenuhnya saat terbuka */
+    z-index: 1002;
     transition: transform 0.3s ease;
-    box-sizing: border-box; /* Memastikan padding termasuk dalam width untuk perhitungan transform yang akurat */
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
 }
@@ -1186,4 +1186,5 @@ body.dark-theme #rotating-text-header.transitioning {
     white-space: nowrap;
     overflow: visible;
 }
+
 
